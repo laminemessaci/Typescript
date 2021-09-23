@@ -40,12 +40,10 @@ const MoviesScreen: React.FC = () => {
 
   useEffect(() => {
     films();
-    // setTitle(upcomingFilms ? upcomingFilms[0].title : 'no title');
     setIsLoading(false);
-  }, [title]);
+  }, []);
 
   const renderItemList = (film: Object | undefined) => {
-    console.log(film);
     return (
       <TouchableOpacity
         style={styles.content_container}
@@ -69,7 +67,6 @@ const MoviesScreen: React.FC = () => {
   };
 
   if (!isLoading) {
-    console.log(upcomingFilms);
     return (
       <View style={{top: 60}}>
         <View
@@ -109,7 +106,6 @@ const styles: IStyles = {
     alignContent: 'center',
     justifyContent: 'center',
     alignItems: 'center',
-    //alignContent: 'flex-end',
   },
 
   main_container: {
