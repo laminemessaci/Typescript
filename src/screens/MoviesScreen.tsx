@@ -33,7 +33,7 @@ const MoviesScreen: React.FC = () => {
   const films = async () => {
     const films = await getUpcomingFilms().then(resp => {
       setUpcomingFilms(resp?.results);
-
+      // pour commit
       setTitle(upcomingFilms[0]?.title);
     });
   };
