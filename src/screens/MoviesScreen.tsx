@@ -26,26 +26,30 @@ interface Films {
 }
 
 const MoviesScreen: React.FC = () => {
-  const [upcomingFilms, setUpcomingFilms] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [upcomingFilms, setUpcomingFilms] = useState<Object>([]);
+  const [title, setTitle] = useState(upcomingFilms[0]?.title ?? 'title');
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const films = async () => {
     const films = await getUpcomingFilms().then(resp => {
-      setUpcomingFilms(resp.results);
+      setUpcomingFilms(resp?.results);
+
+      setTitle(upcomingFilms[0]?.title);
     });
   };
 
   useEffect(() => {
     films();
+    // setTitle(upcomingFilms ? upcomingFilms[0].title : 'no title');
     setIsLoading(false);
-  }, []);
+  }, [title]);
 
   const renderItemList = (film: Object | undefined) => {
     console.log(film);
     return (
       <TouchableOpacity
         style={styles.content_container}
-        onPress={() => console.log('pressed!')}>
+        onPress={() => setTitle(film?.item.title)}>
         <View style={styles.mainContainer}>
           <Image
             style={styles.image}
@@ -65,8 +69,27 @@ const MoviesScreen: React.FC = () => {
   };
 
   if (!isLoading) {
+    console.log(upcomingFilms);
     return (
       <View style={{top: 60}}>
+        <View
+          style={{
+            top: 20,
+            marginBottom: 20,
+            alignItems: 'flex-end',
+            borderRadius: 15,
+          }}>
+          <Text
+            style={{
+              fontSize: 18,
+              color: 'white',
+              margin: 24,
+              backgroundColor: 'black',
+            }}>
+            {title}
+          </Text>
+        </View>
+
         <FlatList
           data={upcomingFilms}
           keyExtractor={item => item.id.toString()}
